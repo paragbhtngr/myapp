@@ -1,0 +1,76 @@
+<h1>Social todo app for cpsc113</h1>
+
+<div>
+  We currently have {{userCount}} users.
+  {{#if currentUser}}
+    Your name is <b>{{currentUser.name}}</b>
+  {{/if}}
+</div>
+
+{{#if errors}}
+<div style="color: red">
+  {{errors}}
+</div>
+{{/if}}
+
+{{#if currentUser}}
+  <h2>Welcome, {{currentUser.name}}</h2>
+  <div>
+
+    <h4>Your Tasks</h4>
+    {{#if tasks}}
+      <ul class="tasks-list">
+        {{#each tasks}}
+          <li class="tasks-list-item">
+            <span class="task-title">{{this.title}}</span>
+            <form action="tasks/delete" method="post">
+              <input type="hidden" name="taskId" value={{this._id}}>
+              <input type="submit" name="delete-task" class="delete-task" value="Delete">
+            </form>
+            <form action="tasks/toggle" method="post">
+              <input type="hidden" name="taskId" value={{this._id}}>
+              <input type="submit" name="toggle-task" class="toggle-task" value="Mark complete">
+            </form>
+          </li>
+        {{/each}}
+      </ul>
+      {{else}}
+        No tasks to show!
+    {{/if}}
+  </div>
+  <hr>
+  <div>
+    <form action="tasks/create" method="post">
+      <label for="title">Task title</label>
+      <input type="text" name="title" placeholder="Insert Title">
+      <label for="description">Task Description</label>
+      <input type="text" name="description" placeholder="Details">
+      Collaborators <br>
+      <input type="email" name="collaborator1" placeholder="Collaborator email">
+      <input type="email" name="collaborator2" placeholder="Collaborator email">
+      <input type="email" name="collaborator3" placeholder="Collaborator email">
+      <input type="submit">
+    </form>
+  </div>
+
+{{else}}
+<div>
+  <form action="/user/login" method="post" class="login-form" style="display: block;">
+    <input name="email" type="email" class="text-input" placeholder="email">
+    <input name="password" type="password" class="text-input" placeholder="password">
+    <button class="blue log-in-submit">Log In</button>
+  </form>
+</div>
+<hr>
+<div>
+  <form action="/user/register" method="post" class="signup-form" style="display: block;">
+    <input name="fl_name" type="text" class="text-input" placeholder="first &amp; last name">
+    <input name="email" type="email" class="text-input" placeholder="email">
+    <input name="password" type="password" class="text-input" placeholder="password">
+    <input name="password_confirmation" type="password" class="text-input" placeholder="password confirmation">
+    <div>
+      <button class="blue sign-up-submit">Sign Up</button>
+    </div>
+  </form>
+</div>
+{{/if}}
